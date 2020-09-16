@@ -1,14 +1,8 @@
 import React from 'react';
 
-import {
-  SafeAreaView,
-  Image,
-  Text,
-  StyleSheet,
-  ScrollView,
-  Dimensions,
-  View,
-} from 'react-native';
+import {SafeAreaView, Text, StyleSheet, Dimensions, View} from 'react-native';
+
+import Carousel from './Components/Carousel/Carousel';
 
 const {width} = Dimensions.get('window');
 const height = (width * 100) / 60; // 80%
@@ -34,23 +28,8 @@ class App extends React.Component {
     return (
       <SafeAreaView style={styles.container}>
         <Text style={styles.title}>Image Carousel</Text>
-        <ScrollView
-          style={styles.imageScroll}
-          horizontal
-          pagingEnabled
-          scrollEventThrottle
-          onScroll={this.setChange}
-          showsHorizontalScrollIndicator={false}>
-          {images.map((image, index) => (
-            <Image
-              key={index}
-              style={styles.image}
-              source={{
-                uri: image,
-              }}
-            />
-          ))}
-        </ScrollView>
+        <Carousel images={images} setChange={this.setChange} />
+
         <View style={styles.pagination}>
           {images.map((item, index) => {
             return (
