@@ -2,9 +2,14 @@ import React from 'react';
 
 import {Text, StyleSheet, View} from 'react-native';
 
-const Pagination = ({images, active}) => {
+const Pagination = ({images, active, orientation}) => {
   return (
-    <View style={styles.pagination}>
+    <View
+      style={
+        orientation === '' || orientation === 'portrait'
+          ? styles.paginationPortrait
+          : styles.paginationLandscape
+      }>
       {images.map((item, index) => {
         return (
           <Text
@@ -24,10 +29,16 @@ const Pagination = ({images, active}) => {
 };
 
 const styles = StyleSheet.create({
-  pagination: {
+  paginationPortrait: {
     flexDirection: 'row',
     position: 'absolute',
-    bottom: 200,
+    bottom: 330,
+    alignSelf: 'center',
+  },
+  paginationLandscape: {
+    flexDirection: 'row',
+    position: 'absolute',
+    bottom: 100,
     alignSelf: 'center',
   },
   paginationText: {
@@ -35,7 +46,7 @@ const styles = StyleSheet.create({
     margin: 3,
   },
   paginationActiveText: {
-    color: '#fff',
+    color: '#000',
     margin: 3,
   },
 });

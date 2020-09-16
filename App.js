@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {SafeAreaView, Text, StyleSheet} from 'react-native';
+import {SafeAreaView, Text, StyleSheet, Dimensions} from 'react-native';
 
 import Carousel from './Components/Carousel/Carousel';
 import Pagination from './Components/Pagination/Pagination';
@@ -16,7 +16,12 @@ const images = [
 class App extends React.Component {
   state = {
     active: 0,
+    orientation: '',
   };
+
+  componentDidMount() {
+    Dimensions.addEventListener('change', this.getOrientation);
+  }
 
   setChange = ({nativeEvent}) => {
     const slider = Math.ceil(
@@ -26,13 +31,25 @@ class App extends React.Component {
       this.setState({active: slider});
     }
   };
+  getOrientation = () => {
+    const {width, height} = Dimensions.get('window');
+    if (width < height) {
+      this.setState({orientation: 'portrait'});
+    } else {
+      this.setState({orientation: 'landscape'});
+    }
+  };
   render() {
-    const {active} = this.state;
+    const {active, orientation} = this.state;
     return (
       <SafeAreaView style={styles.container}>
         <Text style={styles.title}>Image Carousel</Text>
-        <Carousel images={images} setChange={this.setChange} />
-        <Pagination images={images} active={active} />
+        <Carousel
+          images={images}
+          setChange={this.setChange}
+          orientation={orientation}
+        />
+        <Pagination images={images} active={active} orientation={orientation} />
       </SafeAreaView>
     );
   }
@@ -41,7 +58,7 @@ class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 80,
+    marginTop: 10,
   },
   title: {
     fontSize: 23,
